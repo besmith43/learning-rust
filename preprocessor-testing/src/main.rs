@@ -21,6 +21,8 @@ fn main() {
     test_print();
 
     check_os();
+
+    example();
 }
 
 #[cfg(debug_assertions)]
@@ -44,3 +46,19 @@ fn check_os() {
         println!("No idea");
     }
 }
+
+#[cfg(target_os = "macos")]
+fn example() {
+    println!("mac os");
+}
+
+#[cfg(target_os = "windows")]
+fn example() {
+    println!("windows");
+}
+
+#[cfg(target_os = "linux")]
+fn example() {
+    println!("linux");
+}
+
