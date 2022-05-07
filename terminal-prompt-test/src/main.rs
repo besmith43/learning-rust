@@ -1,8 +1,27 @@
-use std::io;
+extern crate term;
+use std::io::prelude::*;
+use std::io::stdin;
 
 fn main() {
-    let mut user_input = String::new();
+    let mut t = term::stdout().unwrap();
 
-    println!("Testing that a window is opened when this executable is launched");
-    io::stdin().read_line(&mut user_input).expect("failed to read line");
+    t.fg(term::color::GREEN).unwrap();
+    write!(t, "hello, ").unwrap();
+
+    t.fg(term::color::RED).unwrap();
+    writeln!(t, "world!").unwrap();
+
+    t.fg(term::color::GREEN).unwrap();
+    writeln!(t, "please write something").unwrap();
+
+    let mut input = String::new();
+    stdin().read_line(&mut input).expect("didn't type in anything");
+
+    writeln!(t, "This is what you typed in: {}", input).unwrap();
+
+    writeln!(t, "press Enter to continue").unwrap();
+    let mut i = String::new();
+    stdin().read_line(&mut i).expect("");
+
+    t.reset().unwrap();
 }
