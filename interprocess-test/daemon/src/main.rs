@@ -17,7 +17,7 @@ pub fn main() -> Result<(), Box<dyn Error>> {
 
     let sock = "/tmp/example.sock";
 
-    reset_sock(&sock);
+    reset_sock(&sock).unwrap();
 
     let listener = LocalSocketListener::bind(sock)?; // need to figure out how to set the file permissions on the socket
     
