@@ -1,4 +1,6 @@
 use std::process::Command;
+use std::process::Output;
+use std::io;
 use rand::Rng;
 
 fn main() {
@@ -9,7 +11,8 @@ fn main() {
     };
 }
 
-fn run() -> Result<()> {
+// had to use Box<dyn std::error::Error> to handle multiple types of errors
+fn run() -> Result<(), Box<dyn std::error::Error>> {
     let messages = vec![
         "omg another update",
         "i don't know what is in this commit lol",
@@ -22,11 +25,11 @@ fn run() -> Result<()> {
     let message = messages[index];
 
     // push local changes
-    git_command(["add", "."])?;
-    git_command(["commit", "-m", message])?;
+    git_command(&["add", "."])?;
+    git_command(&["commit", "-m", message])?;
 
     // pull remote
-    let result = git_command(["pull"])?;
+    let result = git_command(&["pull"])?;
     let output_string = std::str::from_utf8(&result.stdout)?;
 
     // find if we have a merge conflict and fix
@@ -38,17 +41,17 @@ fn run() -> Result<()> {
     }
 
     if conflicting_files.len() > 0 {
-        git_command(["add", "."])?;
-        git_command(["commit", "-m", "merging... screw you"])?;
+        git_command(&["add", "."])?;
+        git_command(&["commit", "-m", "merging... screw you"])?;
     }
 
-    git_command(["push"])?;
+    git_command(&["push"])?;
 
     Ok(())
 }
 
-fn git_command(arr: [&str]) -> Result<String, String> {
-    Command::new("git").args(arr).output()
+fn git_command(arr: &[&str]) -> Result<Output, io::Error> {
+    Command::new("git").args(arr.to_vec()).output()
 }
 
 fn get_conflicting_files(text: &str) -> Vec<String> {
@@ -74,12 +77,14 @@ fn clean_conflicted_string(conflicted_file: String) -> String {
     }) 
 }
 
-
 struct StringChipper {
-    pub find_index: u32,
+    index: u32,
+    start_index: u32,
+    find_index: u32,
 }
 
-impl Chip_Away for StringChipper { // I don't know if this is the right way to recreate this
+impl StringChipper {
+    // I don't know if this is the right way to recreate this
     // need a function for chip_away
     // needs a find_index integer variable for within self
     // needs an index variable for within self
@@ -96,7 +101,7 @@ impl Chip_Away for StringChipper { // I don't know if this is the right way to r
             Err(_) => self.inner.len() - self.index - 1,
         };
 
-        self.inner.replace_range(start_index..=self.index + end_index, "");
+        self.inner.replace_range(start_index..=self.index + end_index, ""); // this either needs to be the return statement or it needs a ?
         Ok(())
     }
 
@@ -107,7 +112,15 @@ impl Chip_Away for StringChipper { // I don't know if this is the right way to r
         Ok(())
     }
 
-    chip_away(file: &str) -> String {
+    pub fn chip_away<F: Fn(&str) -> String>(file: &str, func: F) -> String {
+        func(file)
+    }
+}
 
+impl Iterator for StringChipper {
+    type Item = u32;
+
+    pub fn next(&mut self) -> Option<Self::Item> {
+         
     }
 }
