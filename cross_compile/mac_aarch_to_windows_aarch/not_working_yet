@@ -1,0 +1,5 @@
+currently rust doesn't have a target toolchain for windows on arm that doesn't require the msvc
+therefore, until the mingw project supports aarch64 windows binaries, rust can't build any on none windows platforms
+
+
+
