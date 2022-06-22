@@ -17,7 +17,6 @@ fn main() {
 }
 
 fn run_result() ->Result<(), String> {
-
     match failing() {
         Ok(_) => println!("match function was successful"),
         Err(error) => println!("{}", error),
