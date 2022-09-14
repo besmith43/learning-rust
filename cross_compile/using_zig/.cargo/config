@@ -13,3 +13,6 @@ linker = "/opt/homebrew/bin/zig cc -target x86_64-windows-gnu"
 # this doesn't work because it's missing the linker.exe for msvc
 #[target.aarch64-pc-windows-msvc]
 #linker = "/opt/homebrew/bin/zig cc -target aarch64-windows"
+
+[target.aarch64-apple-darwin]
+linker = "/home/besmith/bin/zcc"

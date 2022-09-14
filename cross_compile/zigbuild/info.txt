@@ -1,0 +1,37 @@
+
+zigbuild seems to be a great way to use zig as a linker for cross compiling rust code for gnu targets
+
+start by installing zigbuild:
+
+cargo install zigbuild
+
+install ziglang
+
+for windows:
+
+choco install zig
+
+for mac:
+
+brew install zig
+
+for linux:
+
+apt install zig
+
+add target with rustup:
+
+rustup target add aarch64-apple-darwin
+rustup target add x86_64-apple-darwin
+rustup target add aarch64-unknown-linux-gnu
+rustup target add x86_64-unknown-linux-gnu
+rustup target add x86_64-pc-windows-gnu
+
+this does not currently work for aarch64 windows as that is msvc only
+
+then to run zigbuild with a crate
+
+cargo zigbuild --target aarch64-apple-darwin
+
+
+
