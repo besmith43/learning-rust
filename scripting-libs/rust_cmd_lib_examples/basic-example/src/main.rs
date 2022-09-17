@@ -1,4 +1,5 @@
 use cmd_lib::*;
+use chrono::prelude::*;
 //use std::process::Command;
 
 fn main() {
@@ -6,6 +7,10 @@ fn main() {
 
     run_cmd!(echo $msg).unwrap();
     run_cmd!(echo "This is the message: $msg").unwrap();
+
+    // this doesn't work either
+    //let time_now = Utc::now();
+    //run_cmd!(echo "$time_now - logging" >> log.txt).unwrap();
 
     // control flow tests
     let file = "~/.bashrc";
