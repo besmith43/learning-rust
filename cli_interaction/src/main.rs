@@ -4,7 +4,7 @@ use std::path::Path;
 use chrono::prelude::*;
 
 fn main() {
-    let tmp_log = String::from("/c/tmp/cli_interaction.txt");
+    let tmp_log = String::from("C:/tmp/cli_interaction.txt");
     let mut tmp_content;
 
     if Path::new(&tmp_log).is_file() {
@@ -22,8 +22,10 @@ fn main() {
                                 .interact()
                                 .unwrap();
 
-        let temp = format!("{} - {} was selected\n", Utc::now(), items[selection]);
+    let temp = format!("{} - {} was selected\n", Utc::now(), items[selection]);
 
-        tmp_content.push_str(&temp);
-        write_all(tmp_log, &tmp_content).unwrap();
+    println!("{}", &temp);
+
+    tmp_content.push_str(&temp);
+    write_all(tmp_log, &tmp_content);
 }
