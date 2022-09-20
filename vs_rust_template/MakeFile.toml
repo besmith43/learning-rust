@@ -1,0 +1,21 @@
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.audit]
+install_crate = "cargo-audit"
+install_crate_args = ["--features=fix"]
+command = "cargo"
+args = ["audit"]
+
+[tasks.build]
+command = "cargo"
+args = ["build"]
+
+[tasks.run]
+command = "cargo"
+args = ["run"]
+
+[tasks.publish]
+command = "cargo"
+args = ["publish"]
