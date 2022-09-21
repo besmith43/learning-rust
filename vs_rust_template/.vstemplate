@@ -1,0 +1,5 @@
+<TemplateContent>
+    <ProjectItem ReplaceParameters="true">
+        Cargo.toml
+    </ProjectItem>
+</TemplateContent>

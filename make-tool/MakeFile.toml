@@ -1,0 +1,94 @@
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.build]
+command = "cargo"
+args = ["build"]
+
+[tasks.run]
+command = "cargo"
+args = ["run"]
+
+[tasks.zig-dep]
+linux_alias = "unix-zig-dep"
+windows_alias = "windows-zig-dep"
+mac_alias = "unix-zig-dep"
+
+[tasks.unix-zig-dep]
+condition = { fail_message = "zig not installed" }
+condition_script = ["command -v zig"]
+
+[tasks.windows-zig-dep]
+condition = { fail_message = "zig not installed" }
+condition_script = ["WHERE zig"]
+
+[tasks.linux-arm-target]
+command = "rustup"
+args = ["target", "add", "aarch64-unknown-linux-gnu"]
+
+[tasks.linux-x86-target]
+command = "rustup"
+args = ["target", "add", "x86_64-unknown-linux-gnu"]
+
+[tasks.macos-arm-target]
+command = "rustup"
+args = ["target", "add", "aarch64-apple-darwin"]
+
+[tasks.macos-x86-target]
+command = "rustup"
+args = ["target", "add", "x86_64-apple-darwin"]
+
+[tasks.windows-x86-target]
+command = "rustup"
+args = ["target", "add", "x86_64-pc-windows-gnu"]
+
+[tasks.windows-arm-target]
+command = "rustup"
+args = ["target", "add", "aarch64-pc-windows-msvc"]
+
+[tasks.linux-arm]
+install_crate = "zigbuild"
+command  = "cargo"
+args = ["zigbuild", "--target", "aarch64-unknown-linux-gnu"]
+dependencies = ["linux-arm-target", "zig-dep"]
+
+[tasks.linux-x86]
+install_crate = "zigbuild"
+command  = "cargo"
+args = ["zigbuild", "--target", "x86_64-unknown-linux-gnu"]
+dependencies = ["linux-x86-target", "zig-dep"]
+
+[tasks.macos-arm]
+install_crate = "zigbuild"
+command  = "cargo"
+args = ["zigbuild", "--target", "aarch64-apple-darwin"]
+dependencies = ["macos-arm-target", "zig-dep"]
+
+[tasks.macos-x86]
+install_crate = "zigbuild"
+command  = "cargo"
+args = ["zigbuild", "--target", "x86_64-apple-darwin"]
+dependencies = ["macos-x86-target", "zig-dep"]
+
+[tasks.windows-x86]
+install_crate = "zigbuild"
+command  = "cargo"
+args = ["zigbuild", "--target", "x86_64-pc-windows-gnu"]
+dependencies = ["windows-x86-target", "zig-dep"]
+
+[tasks.windows-arm]
+condition = { platforms = ["windows"] }
+command  = "cargo"
+args = ["build", "--target", "aarch64-pc-windows-msvc"]
+dependencies = ["windows-arm-target"]
+
+[tasks.cross_build]
+dependencies = [
+	"linux-arm",
+	"linux-x86",
+	"macos-arm",
+	"macos-x86",
+	"windows-x86",
+	"windows-arm"
+]
