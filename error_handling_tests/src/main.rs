@@ -10,11 +10,18 @@
 // expect
 // 
 
-fn main() {
-    run_result().unwrap();
+use std::process::Command;
 
-    run_option().unwrap();
-}
+fn main() {
+    Command::new("nonexistent_executable")
+            .status()
+            .expect("ls failed to run");  // having the expect will halt execution just like unwrap but has a string that you give it and the error of the result
+
+    run_result(); //not handling the returned result is acceptable, but will cause a warning and not stop the flow of execution
+
+    run_option().unwrap(); //unwrap automatically panics on an error result and stops execution
+
+    }
 
 fn run_result() ->Result<(), String> {
     match failing() {
