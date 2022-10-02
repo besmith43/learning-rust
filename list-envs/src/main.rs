@@ -1,7 +1,7 @@
 use colored::Colorize;
+use text_io::read;
 
 fn main() {
-
     println!("{}", "Environment Variables".green());
 
     let vars = std::env::vars();
@@ -15,7 +15,11 @@ fn main() {
     let os_vars = std::env::vars_os();
 
     for os_var in os_vars {
-        println!("{}: {}", os_var.0.into_string().unwrap(), os_var.1.into_string().unwrap());
+        println!(
+            "{}: {}",
+            os_var.0.into_string().unwrap(),
+            os_var.1.into_string().unwrap()
+        );
     }
 
     println!("{}", "Current Directory".green());
@@ -29,4 +33,6 @@ fn main() {
     let exe_dir = std::env::current_exe();
 
     println!("{}", exe_dir.unwrap().as_path().display());
+
+    let _nothing: String = read!();
 }
